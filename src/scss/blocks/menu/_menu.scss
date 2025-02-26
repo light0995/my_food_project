@@ -1,0 +1,59 @@
+.menu {
+  &__title {
+    text-align: center;
+    margin-top: 30px;
+  }
+
+  &__field {
+    background-color: rgba(249, 254, 126, 0.25);
+    display: flex;
+    justify-content: space-between;
+    &-item {
+      margin: 30px auto;
+      width: 320px;
+      height: 450px;
+      font-size: 16px;
+      font-weight: 300;
+      background-color: #fff;
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 4px 25px;
+      &-img {
+        width: 320px;
+        height: 200px;
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &-subtitle {
+        font-weight: 700;
+        font-size: 18px;
+        margin-top: 20px;
+        padding: 0px 20px;
+      }
+      &-descr {
+        margin-top: 20px;
+        padding: 0px 20px;
+      }
+      &-divider {
+        width: 100%;
+        height: 1px;
+        background-color: rgba(0, 0, 0, 0.25);
+        margin-top: 40px;
+      }
+
+      &-price {
+        display: flex;
+        justify-content: space-between;
+      }
+
+      &-total {
+        span {
+          font-size: 24px;
+          font-weight: 700;
+        }
+      }
+    }
+  }
+}

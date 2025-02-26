@@ -1,0 +1,81 @@
+.calculating {
+  padding-top: 30px;
+
+  &__title {
+    margin-top: 40px;
+    text-align: center;
+  }
+
+  &__field {
+    margin-top: 40px;
+    padding-top: 5px;
+    padding-bottom: 20px;
+    background: rgba(146, 242, 255, 0.15);
+  }
+
+  &__subtitle {
+    margin-top: 20px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  &__choose {
+    display: flex;
+    justify-content: center;
+    margin: 30px auto 0;
+    &-medium {
+      width: 743px;
+      justify-content: space-between;
+      cursor: default;
+      border: none;
+    }
+    &-big {
+      width: 930px;
+      justify-content: space-between;
+    }
+
+    &-item {
+      width: 170px;
+      height: 50px;
+      background-color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: rgba(0, 0, 0, 0.2) 0px 4px 15px;
+      border-style: none;
+      text-align: center;
+      &-active {
+        background-color: rgb(84, 237, 57);
+        color: #fff;
+      }
+    }
+  }
+
+  &__total {
+    width: 490px;
+    margin: 0 auto;
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    &-subtitle {
+      margin-top: 0;
+    }
+  }
+
+  &__result {
+    font-size: 18px;
+    font-weight: 700;
+    span {
+      font-size: 42px;
+    }
+  }
+
+  &__divider {
+    width: 490px;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+}
