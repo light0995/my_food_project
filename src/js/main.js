@@ -12,19 +12,9 @@ const modalToggle = document.querySelectorAll('[data-modal]');
 const modalClose = document.querySelector('.modal__close');
 const deadline = '2025-02-26T09:22:30';
 
-modalToggle.forEach(item => {
-    item.addEventListener('click', (e) => {
-        e.preventDefault();
-        modal.classList.add('modal__active');
-    })
-})
 
 
-modal.addEventListener('click', (e) => {
-    if (e.target.className === 'modal__overlay' || e.target.className === 'modal__close') {
-        modal.classList.remove('modal__active');
-    }
-})
+
 
 
 
@@ -120,20 +110,96 @@ function setClock (selector, endtime) {
 
 
 
+function openModal () {
+    modal.classList.add('modal__active');
+    clearInterval(modalTimerId);
+};
+
+function closeModal () {
+    modal.classList.remove('modal__active');
+
+};
 
 
 
+document.addEventListener('keydown', (e) => {
+    if (e.keyCode === 27) {
+        closeModal();
+    } 
+})
+modal.addEventListener('click', (e) => {
+    e.preventDefault();
+    target = e.target.className;
+    if (target === 'modal__close' || target === 'modal__overlay') {
+        closeModal();
+    }
+})
+
+modalToggle.forEach(item => {
+    item.addEventListener('click', (e) => {
+        e.preventDefault();
+        openModal();
+    })
+})
+
+
+function openModalByScroll () {
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
+        openModal();
+        window.removeEventListener('scroll', openModalByScroll);
+
+    };
+};
+
+
+// window.addEventListener('scroll', openModalByScroll);
+
+// const modalTimerId = setTimeout(openModal, 3000);
 
 
 
+class Menu {
+    constructor(src, alt, subtitle, descr, price, parentSelector) {
+        this.src = src;
+        this.alt = alt;
+        this.subtitle = subtitle;
+        this.descr = descr;
+        this.price = price;
+        this.parent = document.querySelector(parentSelector);
+    }
 
 
+    render() {
+        const wrapper = document.createElement('div');
+        wrapper.classList.add('menu__field-item');
+        wrapper.innerHTML = `
+        <img src=${this.src} alt=${this.alt} class='menu__field-item-img'>
+        <div class="menu__field-item-subtitle">${this.subtitle}</div>
+        <div class="menu__field-item-descr">${this.descr}</div>
+        <div class="menu__field-item-divider" ></div>
+        <div class="menu__field-item-price">
+        <div>Цена:</div>
+        <div class="menu__field-item-total"> <span>${this.price}</span> </div>
+
+        </div>
+        `
+        
+       
+
+        this.parent.append(wrapper);
+
+        
+    }
+}
 
 
+new Menu('./img/tabs/vegy.jpg', 
+                        'vegy', 
+                        `Меню "Фитнес"`, 
+                        `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+                        Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
+                        700,
+                        `.menu__field`
+                    ).render();
 
 
-
-
-setClock('.promotion__timer', deadline);
-hamburgerToggle();
-switchPreviewMeals();
