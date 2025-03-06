@@ -320,12 +320,16 @@
     padding-top: 5px;
     padding-bottom: 5px;
     &__wrapper {
-      height: 250px;
+      height: 200px;
     }
+    &__meals {
+      max-width: 60%;
+    }
+
     &__meals-descr {
       padding: 7px 7px;
       height: 115px;
-      bottom: -20px;
+      bottom: -80px;
       font-size: 12px;
       line-height: 18px;
       width: 290px;
@@ -333,6 +337,7 @@
     }
     &__menu {
       padding: 10px 5px 0 5px;
+      width: 40px;
       &-title {
         font-size: 12px;
       }
@@ -349,8 +354,8 @@
       }
     }
     &__subtitle {
-      font-size: 16px;
-      padding-top: 25px;
+      font-size: 14px;
+      padding-top: 85px;
     }
   }
   .bg_blue {
@@ -358,6 +363,7 @@
   }
 
   .offer {
+    padding-top: 1px;
     .container {
       display: block;
     }

@@ -1012,12 +1012,15 @@ a {
     padding-bottom: 5px;
   }
   .preview__wrapper {
-    height: 250px;
+    height: 200px;
+  }
+  .preview__meals {
+    max-width: 60%;
   }
   .preview__meals-descr {
     padding: 7px 7px;
     height: 115px;
-    bottom: -20px;
+    bottom: -80px;
     font-size: 12px;
     line-height: 18px;
     width: 290px;
@@ -1025,6 +1028,7 @@ a {
   }
   .preview__menu {
     padding: 10px 5px 0 5px;
+    width: 40px;
   }
   .preview__menu-title {
     font-size: 12px;
@@ -1041,11 +1045,14 @@ a {
     width: 0.5px;
   }
   .preview__subtitle {
-    font-size: 16px;
-    padding-top: 25px;
+    font-size: 14px;
+    padding-top: 85px;
   }
   .bg_blue {
     height: 440px;
+  }
+  .offer {
+    padding-top: 1px;
   }
   .offer .container {
     display: block;

@@ -10,8 +10,7 @@ const previewMeals = document.querySelectorAll('.preview__meals');
 const modal = document.querySelector('.modal');
 const modalToggle = document.querySelectorAll('[data-modal]');
 const modalClose = document.querySelector('.modal__close');
-const deadline = '2025-02-26T09:22:30';
-
+const deadline = '2025-03-06T10:47:00';
 
 
 
@@ -39,7 +38,6 @@ function hamburgerToggle () {
 
 
 function switchPreviewMeals () {
-   
     previewListItem.forEach((item, index) => {
         item.addEventListener('click', (e) => {
             e.preventDefault();
@@ -54,20 +52,20 @@ function switchPreviewMeals () {
 
 
 
-
 function getTimeRemaining (endtime) {
     const t = Date.parse(endtime) - Date.parse(new Date());
-    let days, hours, minutes, seconds; 
+    let days, hours, minutes, seconds;
+
     if (t <= 0) {
         days = 0;
         hours = 0;
         minutes = 0;
         seconds = 0;
     } else {
-        days = Math.floor(t / (1000 * 60 * 60 * 24)),
-        hours = Math.floor((t / 1000 * 60 * 60) % 24),
-        minutes = Math.floor((t / 1000 / 60) % 60),
-        seconds = Math.floor((t / 1000) % 60);
+        days = Math.floor( t / (1000 * 60 * 60 * 24) ),
+        hours = Math.floor( (t / (1000 * 60 * 60) ) % 24 ),
+        minutes = Math.floor( (t / (1000 * 60)) % 60 ),
+        seconds = Math.floor ((t / 1000) % 60)
     };
 
     return {
@@ -80,33 +78,38 @@ function getTimeRemaining (endtime) {
 };
 
 
-
 function getZero (num) {
     if (num < 10) {
         return `0${num}`
     } else {
-        return num;
+        return num
     }
-}
-
+};
 
 function setClock (selector, endtime) {
     const timer = document.querySelector(selector),
     days = timer.querySelector('#days'),
     hours = timer.querySelector('#hours'),
     minutes = timer.querySelector('#minutes'),
-    seconds = timer.querySelector('#seconds'),
-    timerId = setInterval(updateClock, 1000);
-
-
+    seconds = timer.querySelector('#seconds');
+    const timerId = setInterval(updateClock, 1000);
+    updateClock();
     function updateClock () {
         const t = getTimeRemaining(endtime);
         days.innerHTML = `<span>${getZero(t.days)}</span> дней`;
         hours.innerHTML = `<span>${getZero(t.hours)}</span> часов`;
         minutes.innerHTML = `<span>${getZero(t.minutes)}</span> минут`;
-        seconds.innerHTML = `<span>${getZero(t.seconds)}</span> секунд`
+        seconds.innerHTML = `<span>${getZero(t.seconds)}</span> секунд`;
+
+        if (t.total <= 0) {
+            clearInterval(timerId);
+        }
     }
-};
+
+
+}
+
+
 
 
 
@@ -158,48 +161,111 @@ function openModalByScroll () {
 
 
 
+
+
 class Menu {
-    constructor(src, alt, subtitle, descr, price, parentSelector) {
+    constructor (src, alt, sub, descr, price, parentSelector, ...classes) {
         this.src = src;
         this.alt = alt;
-        this.subtitle = subtitle;
+        this.sub = sub;
         this.descr = descr;
         this.price = price;
         this.parent = document.querySelector(parentSelector);
+        this.classes = classes;
     }
 
 
-    render() {
-        const wrapper = document.createElement('div');
-        wrapper.classList.add('menu__field-item');
-        wrapper.innerHTML = `
-        <img src=${this.src} alt=${this.alt} class='menu__field-item-img'>
-        <div class="menu__field-item-subtitle">${this.subtitle}</div>
-        <div class="menu__field-item-descr">${this.descr}</div>
-        <div class="menu__field-item-divider" ></div>
-        <div class="menu__field-item-price">
-        <div>Цена:</div>
-        <div class="menu__field-item-total"> <span>${this.price}</span> </div>
+    render () {
+        const element = document.createElement('div');
+        element.classList.add('menu__field-item');
+        element.innerHTML = `
+            <img src="${this.src}" alt="${this.alt}" class="menu__field-item-img">
+            <div class="menu__field-item-subtitle">${this.sub}</div>
+            <div class="menu__field-item-descr">${this.descr}</div>
+            <div class="menu__field-item-divider"></div>
+            <div class="menu__field-item-price">
+                <div>Цена:</div>
+                <div class="menu__field-item-total"><span>${this.price}</span> р / день</div>
+            </div>
+        `;
 
-        </div>
-        `
-        
-       
-
-        this.parent.append(wrapper);
-
-        
+        this.parent.append(element);
     }
+
+
 }
 
 
-new Menu('./img/tabs/vegy.jpg', 
-                        'vegy', 
-                        `Меню "Фитнес"`, 
-                        `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
-                        Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
-                        700,
-                        `.menu__field`
-                    ).render();
+// new Menu(
+//     './img/tabs/vegy.jpg',
+//     'vegy',
+//     `Меню "Фитнес"`,
+//     `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+//      Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
+//      700,
+//      '.menu__field'
+// ).render()
 
+
+
+
+
+
+
+
+// class Menu {
+//     constructor (src, alt, subtitle, description, price, parentSelector, ...classes) {
+//         this.src = src;
+//         this.alt = alt;
+//         this.subtitle = subtitle;
+//         this.description = description;
+//         this.price = price;
+//         this.classes = classes;
+//         this.parent = document.querySelector(parentSelector);
+//     }
+
+
+
+//     render () {
+//         const element = document.createElement('div');
+//         if (this.classes.length === 0) {
+//             element.classList.add('menu__field-item')
+//         } else {
+//             this.classes.forEach(className => element.classList.add(className))
+//         };
+//         element.innerHTML = `
+//             <img src="${this.src}" alt="${this.alt}" class="menu__field-item-img">
+//             <div class="menu__field-item-subtitle">${this.subtitle}</div>
+//             <div class="menu__field-item-descr">${this.description}</div>
+//             <div class="menu__field-item-divider"></div>
+//             <div class="menu__field-item-price">
+//                 <div>Цена:</div>
+//                 <div class="menu__field-item-total"><span>${this.price}</span> р/день</div>                
+//             </div>`
+
+//         this.parent.append(element);
+//     }
+// };
+
+
+
+//     new Menu('./img/tabs/vegy.jpg',
+//         'vegy',
+//         'Меню "Фитнес',
+//         `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+//         Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
+//         700,
+//         '.menu__field',
+//         'menu__field-item'
+//     ).render();
+
+
+
+
+
+
+
+setClock('.promotion__timer', deadline);
+switchPreviewMeals();
+hamburgerToggle();
 
