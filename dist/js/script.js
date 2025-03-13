@@ -12,7 +12,7 @@ const previewMeals = document.querySelectorAll('.preview__meals');
 const modal = document.querySelector('.modal');
 const modalToggle = document.querySelectorAll('[data-modal]');
 const modalClose = document.querySelector('.modal__close');
-const deadline = '2025-03-06T10:47:00';
+const deadline = '2025-03-11T11:38:00';
 function hamburgerToggle() {
   hamburger__toggle.addEventListener('click', e => {
     e.preventDefault();
@@ -122,19 +122,14 @@ function openModalByScroll() {
   ;
 }
 ;
-
-// window.addEventListener('scroll', openModalByScroll);
-
-// const modalTimerId = setTimeout(openModal, 3000);
-
 class Menu {
-  constructor(src, alt, sub, descr, price, parentSelector, ...classes) {
+  constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
     this.src = src;
     this.alt = alt;
-    this.sub = sub;
+    this.subtitle = subtitle;
     this.descr = descr;
     this.price = price;
-    this.parent = document.querySelector(parentSelector);
+    this.parentSelector = document.querySelector(parentSelector);
     this.classes = classes;
   }
   render() {
@@ -142,70 +137,52 @@ class Menu {
     element.classList.add('menu__field-item');
     element.innerHTML = `
             <img src="${this.src}" alt="${this.alt}" class="menu__field-item-img">
-            <div class="menu__field-item-subtitle">${this.sub}</div>
-            <div class="menu__field-item-descr">${this.descr}</div>
+            <div class="menu__field-item-subtitle" > ${this.subtitle} </div>
+            <div class="menu__field-item-descr" > ${this.descr} </div>
             <div class="menu__field-item-divider"></div>
-            <div class="menu__field-item-price">
+            <div class="menu__field-item-price" > 
                 <div>Цена:</div>
-                <div class="menu__field-item-total"><span>${this.price}</span> р / день</div>
-            </div>
-        `;
-    this.parent.append(element);
+                <div class="menu__field-item-total" > <span> ${this.price} </span> р/день  </div>
+            </div>`;
+    this.parentSelector.append(element);
   }
 }
-
-// new Menu(
-//     './img/tabs/vegy.jpg',
-//     'vegy',
-//     `Меню "Фитнес"`,
-//     `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
-//      Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
-//      700,
-//      '.menu__field'
-// ).render()
-
-// class Menu {
-//     constructor (src, alt, subtitle, description, price, parentSelector, ...classes) {
-//         this.src = src;
-//         this.alt = alt;
-//         this.subtitle = subtitle;
-//         this.description = description;
-//         this.price = price;
-//         this.classes = classes;
-//         this.parent = document.querySelector(parentSelector);
-//     }
-
-//     render () {
-//         const element = document.createElement('div');
-//         if (this.classes.length === 0) {
-//             element.classList.add('menu__field-item')
-//         } else {
-//             this.classes.forEach(className => element.classList.add(className))
-//         };
-//         element.innerHTML = `
-//             <img src="${this.src}" alt="${this.alt}" class="menu__field-item-img">
-//             <div class="menu__field-item-subtitle">${this.subtitle}</div>
-//             <div class="menu__field-item-descr">${this.description}</div>
-//             <div class="menu__field-item-divider"></div>
-//             <div class="menu__field-item-price">
-//                 <div>Цена:</div>
-//                 <div class="menu__field-item-total"><span>${this.price}</span> р/день</div>                
-//             </div>`
-
-//         this.parent.append(element);
-//     }
-// };
-
-//     new Menu('./img/tabs/vegy.jpg',
-//         'vegy',
-//         'Меню "Фитнес',
-//         `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
-//         Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`,
-//         700,
-//         '.menu__field',
-//         'menu__field-item'
-//     ).render();
-
+new Menu('./img/tabs/vegy.jpg', 'vegy', `Меню "Фитнес"`, `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+     Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`, 700, '.menu__field').render();
+const forms = document.querySelectorAll('form');
+const message = {
+  loading: `Loading`,
+  success: `Thank you! We will contact you soon!`,
+  failure: `Something went wrong`
+};
+console.log(forms);
+forms.forEach(item => {
+  postData(item);
+});
+function postData(form) {
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const statusMessage = document.createElement('div');
+    statusMessage.classList.add('status');
+    statusMessage.textContent = message.loading;
+    form.append(statusMessage);
+    const request = new XMLHttpRequest();
+    request.open('POST', 'server.php');
+    request.setRequestHeader('Content-type', 'multipart/form-data');
+    const formData = new FormData(form);
+    request.send(formData);
+    request.addEventListener('load', () => {
+      if (request.status === 200) {
+        console.log(request.response);
+        statusMessage.textContent = message.success;
+      } else {
+        statusMessage.textContent = message.failure;
+      }
+    });
+  });
+}
+window.addEventListener('scroll', openModalByScroll);
+// const modalTimerId = setTimeout(openModal, 3000);
 setClock('.promotion__timer', deadline);
 switchPreviewMeals();
 hamburgerToggle();
