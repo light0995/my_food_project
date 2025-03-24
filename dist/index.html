@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Food</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="./css/style.css">
 </head>
 <body>
 
@@ -37,12 +37,15 @@
         <div class="modal__overlay"></div>
         <div class="modal__window">
             <div class="modal__close"></div>
-            <h2 class="title modal__title">Мы свяжемся с вами как можно быстрее!</h2>
-            <form action="#" class="modal__form">
-                <input type="text" class="order__input modal__input" placeholder="Ваше имя">
-                <input type="phone" class="order__input modal__input" placeholder="Ваш номер телефона">
-                <button class="btn btn_dark modal__btn">Перезвоните мне</button>
-            </form>
+
+            <div class="modal__inner modal__inner-active">
+                <h2 class="title modal__title">Мы свяжемся с вами как можно быстрее!</h2>
+                <form class="modal__form">
+                    <input required name="name" type="text" class="order__input modal__input" placeholder="Ваше имя">
+                    <input required name="phone" type="phone" class="order__input modal__input" placeholder="Ваш номер телефона">
+                    <button class="btn btn_dark modal__btn">Перезвоните мне</button>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -369,5 +372,7 @@
 
 
     <script src="js/script.js"></script>
+    <!-- <script src="js/main.js"></script> -->
+
 </body>
 </html>

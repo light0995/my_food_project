@@ -7,6 +7,7 @@ const postcss = require("gulp-postcss");
 const browsersync = require("browser-sync");
 
 const dist = "./dist";
+const src = "./src";
 
 gulp.task("copy-html", () => {
 	return gulp
@@ -59,6 +60,7 @@ gulp.task("build-sass", () => {
 	return gulp
 		.src("./src/scss/**/*.scss")
 		.pipe(sass().on("error", sass.logError))
+		.pipe(gulp.dest(src + "/css")) 
 		.pipe(gulp.dest(dist + "/css"))
 		.pipe(browsersync.stream());
 });

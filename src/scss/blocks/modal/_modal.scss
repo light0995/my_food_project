@@ -16,7 +16,7 @@
     border-radius: 5px;
     background-color: #fff;
     width: 450px;
-    height: 320px;
+    height: 350px;
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
@@ -64,5 +64,23 @@
   }
   &__btn {
     margin: 10px auto 0px auto;
+    z-index: 30;
+
+  }
+
+  &__inner {
+    display: none;
+    &-active {
+      display: block;
+    }
+
+  }
+
+  &__success {
+    display: none;
+    &-active {
+      display: block;
+    }
   }
 }
+

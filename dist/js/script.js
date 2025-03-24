@@ -2,40 +2,39 @@
 /*!************************!*\
   !*** ./src/js/main.js ***!
   \************************/
-const hamburger = document.querySelector('.hamburger');
-const hamburger__toggle = document.querySelector('.hamburger__toggle');
-const hamburger__inner = document.querySelector('.hamburger__inner');
-const hamburger__line = document.querySelectorAll('.hamburger__line');
+const hamburger = document.querySelector(".hamburger");
+const hamburger__toggle = document.querySelector(".hamburger__toggle");
+const hamburger__inner = document.querySelector(".hamburger__inner");
+const hamburger__line = document.querySelectorAll(".hamburger__line");
 let hamburger_toggle_classList = hamburger__toggle.classList;
-const previewListItem = document.querySelectorAll('.preview__list-item');
-const previewMeals = document.querySelectorAll('.preview__meals');
-const modal = document.querySelector('.modal');
-const modalToggle = document.querySelectorAll('[data-modal]');
-const modalClose = document.querySelector('.modal__close');
-const deadline = '2025-03-11T11:38:00';
+const previewListItem = document.querySelectorAll(".preview__list-item");
+const previewMeals = document.querySelectorAll(".preview__meals");
+const modal = document.querySelector(".modal");
+const modalToggle = document.querySelectorAll("[data-modal]");
+const modalClose = document.querySelector(".modal__close");
+const deadline = "2025-03-11T11:38:00";
 function hamburgerToggle() {
-  hamburger__toggle.addEventListener('click', e => {
+  hamburger__toggle.addEventListener("click", e => {
     e.preventDefault();
-    if (hamburger_toggle_classList.contains('hamburger__toggle-active')) {
-      hamburger__inner.classList.remove('hamburger__inner-active');
-      hamburger__line.forEach(item => item.classList.remove('hamburger__line-active'));
-      hamburger__toggle.classList.remove('hamburger__toggle-active');
+    if (hamburger_toggle_classList.contains("hamburger__toggle-active")) {
+      hamburger__inner.classList.remove("hamburger__inner-active");
+      hamburger__line.forEach(item => item.classList.remove("hamburger__line-active"));
+      hamburger__toggle.classList.remove("hamburger__toggle-active");
     } else {
-      hamburger__inner.classList.add('hamburger__inner-active');
-      hamburger__line.forEach(item => item.classList.add('hamburger__line-active'));
-      hamburger__toggle.classList.add('hamburger__toggle-active');
+      hamburger__inner.classList.add("hamburger__inner-active");
+      hamburger__line.forEach(item => item.classList.add("hamburger__line-active"));
+      hamburger__toggle.classList.add("hamburger__toggle-active");
     }
   });
 }
-;
 function switchPreviewMeals() {
   previewListItem.forEach((item, index) => {
-    item.addEventListener('click', e => {
+    item.addEventListener("click", e => {
       e.preventDefault();
-      previewListItem.forEach(item => item.classList.remove('preview__list-item-active'));
-      previewListItem[index].classList.add('preview__list-item-active');
-      previewMeals.forEach(item => item.classList.remove('preview__meals-active'));
-      previewMeals[index].classList.add('preview__meals-active');
+      previewListItem.forEach(item => item.classList.remove("preview__list-item-active"));
+      previewListItem[index].classList.add("preview__list-item-active");
+      previewMeals.forEach(item => item.classList.remove("preview__meals-active"));
+      previewMeals[index].classList.add("preview__meals-active");
     });
   });
 }
@@ -50,16 +49,14 @@ function getTimeRemaining(endtime) {
   } else {
     days = Math.floor(t / (1000 * 60 * 60 * 24)), hours = Math.floor(t / (1000 * 60 * 60) % 24), minutes = Math.floor(t / (1000 * 60) % 60), seconds = Math.floor(t / 1000 % 60);
   }
-  ;
   return {
-    'total': t,
-    'days': days,
-    'hours': hours,
-    'minutes': minutes,
-    'seconds': seconds
+    total: t,
+    days: days,
+    hours: hours,
+    minutes: minutes,
+    seconds: seconds
   };
 }
-;
 function getZero(num) {
   if (num < 10) {
     return `0${num}`;
@@ -67,13 +64,12 @@ function getZero(num) {
     return num;
   }
 }
-;
 function setClock(selector, endtime) {
   const timer = document.querySelector(selector),
-    days = timer.querySelector('#days'),
-    hours = timer.querySelector('#hours'),
-    minutes = timer.querySelector('#minutes'),
-    seconds = timer.querySelector('#seconds');
+    days = timer.querySelector("#days"),
+    hours = timer.querySelector("#hours"),
+    minutes = timer.querySelector("#minutes"),
+    seconds = timer.querySelector("#seconds");
   const timerId = setInterval(updateClock, 1000);
   updateClock();
   function updateClock() {
@@ -88,28 +84,26 @@ function setClock(selector, endtime) {
   }
 }
 function openModal() {
-  modal.classList.add('modal__active');
+  modal.classList.add("modal__active");
+  modal.querySelector('.modal__inner').classList.add('modal__inner-active');
   clearInterval(modalTimerId);
 }
-;
 function closeModal() {
-  modal.classList.remove('modal__active');
+  modal.classList.remove("modal__active");
 }
-;
-document.addEventListener('keydown', e => {
+document.addEventListener("keydown", e => {
   if (e.keyCode === 27) {
     closeModal();
   }
 });
-modal.addEventListener('click', e => {
-  e.preventDefault();
+modal.addEventListener("click", e => {
   target = e.target.className;
-  if (target === 'modal__close' || target === 'modal__overlay') {
+  if (target === "modal__close" || target === "modal__overlay") {
     closeModal();
   }
 });
 modalToggle.forEach(item => {
-  item.addEventListener('click', e => {
+  item.addEventListener("click", e => {
     e.preventDefault();
     openModal();
   });
@@ -117,11 +111,9 @@ modalToggle.forEach(item => {
 function openModalByScroll() {
   if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight - 1) {
     openModal();
-    window.removeEventListener('scroll', openModalByScroll);
+    window.removeEventListener("scroll", openModalByScroll);
   }
-  ;
 }
-;
 class Menu {
   constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
     this.src = src;
@@ -133,8 +125,8 @@ class Menu {
     this.classes = classes;
   }
   render() {
-    const element = document.createElement('div');
-    element.classList.add('menu__field-item');
+    const element = document.createElement("div");
+    element.classList.add("menu__field-item");
     element.innerHTML = `
             <img src="${this.src}" alt="${this.alt}" class="menu__field-item-img">
             <div class="menu__field-item-subtitle" > ${this.subtitle} </div>
@@ -147,43 +139,64 @@ class Menu {
     this.parentSelector.append(element);
   }
 }
-new Menu('./img/tabs/vegy.jpg', 'vegy', `Меню "Фитнес"`, `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
-     Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`, 700, '.menu__field').render();
-const forms = document.querySelectorAll('form');
+new Menu("./img/tabs/vegy.jpg", "vegy", `Меню "Фитнес"`, `Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. 
+     Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`, 700, ".menu__field").render();
+const forms = document.querySelectorAll("form");
 const message = {
   loading: `Loading`,
-  success: `Thank you! We will contact you soon!`,
-  failure: `Something went wrong`
+  success: `<span style='color:green; font-size:24px' >\u2714</span> We will contact you soon`,
+  fail: `<span style='color:red; font-size:24px'>\u2716</span> Something went wrong`
 };
-console.log(forms);
-forms.forEach(item => {
-  postData(item);
-});
+forms.forEach(item => postData(item));
 function postData(form) {
-  form.addEventListener('submit', e => {
+  form.addEventListener("submit", e => {
     e.preventDefault();
-    const statusMessage = document.createElement('div');
-    statusMessage.classList.add('status');
-    statusMessage.textContent = message.loading;
+    const statusMessage = document.createElement("div");
+    statusMessage.classList.add("status");
+    statusMessage.innerHTML = message.loading;
     form.append(statusMessage);
     const request = new XMLHttpRequest();
-    request.open('POST', 'server.php');
-    request.setRequestHeader('Content-type', 'multipart/form-data');
+    request.open("POST", "server.php");
+    request.setRequestHeader("Content-type", "application/json");
     const formData = new FormData(form);
-    request.send(formData);
-    request.addEventListener('load', () => {
+    const object = {};
+    formData.forEach((key, value) => {
+      object[key] = value;
+    });
+    const json = JSON.stringify(object);
+    request.send(json);
+    request.addEventListener("load", () => {
       if (request.status === 200) {
         console.log(request.response);
-        statusMessage.textContent = message.success;
+        form.reset();
+        statusMessage.innerHTML = message.success;
+        modal.querySelector('.modal__inner').classList.remove('modal__inner-active');
+        showThanksModal(message.success);
+        setTimeout(() => statusMessage.remove(), 2000);
       } else {
-        statusMessage.textContent = message.failure;
+        statusMessage.innerHTML = message.fail;
       }
     });
   });
+  function showThanksModal(message) {
+    const prevModalInner = document.querySelector('.modal__inner');
+    prevModalInner.classList.remove('modal__inner-active');
+    const thanksModal = document.createElement('div');
+    thanksModal.innerHTML = `
+    <h2 class="title modal__title">${message}</h2>`;
+    thanksModal.classList.add('modal__inner', 'modal__inner-active');
+    document.querySelector('.modal__window').append(thanksModal);
+
+    // setTimeout(() => {
+    //   thanksModal.remove();
+    //   prevModalInner.classList.toggle('modal__inner-active');
+    //   closeModal();
+    // }, 4000)
+  }
 }
-window.addEventListener('scroll', openModalByScroll);
-// const modalTimerId = setTimeout(openModal, 3000);
-setClock('.promotion__timer', deadline);
+window.addEventListener("scroll", openModalByScroll);
+const modalTimerId = setTimeout(openModal, 3000);
+setClock(".promotion__timer", deadline);
 switchPreviewMeals();
 hamburgerToggle();
 /******/ })()
