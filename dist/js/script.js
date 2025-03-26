@@ -12,7 +12,7 @@ const previewMeals = document.querySelectorAll(".preview__meals");
 const modal = document.querySelector(".modal");
 const modalToggle = document.querySelectorAll("[data-modal]");
 const modalClose = document.querySelector(".modal__close");
-const deadline = "2025-03-11T11:38:00";
+const deadline = "2025-03-26T09:36:00";
 function hamburgerToggle() {
   hamburger__toggle.addEventListener("click", e => {
     e.preventDefault();
@@ -172,9 +172,9 @@ function postData(form) {
         statusMessage.innerHTML = message.success;
         modal.querySelector('.modal__inner').classList.remove('modal__inner-active');
         showThanksModal(message.success);
-        setTimeout(() => statusMessage.remove(), 2000);
+        statusMessage.remove();
       } else {
-        statusMessage.innerHTML = message.fail;
+        showThanksModal(message.fail);
       }
     });
   });
@@ -183,15 +183,16 @@ function postData(form) {
     prevModalInner.classList.remove('modal__inner-active');
     const thanksModal = document.createElement('div');
     thanksModal.innerHTML = `
-    <h2 class="title modal__title">${message}</h2>`;
+    <h2 class="title modal__title">${message}</h2>
+    `;
     thanksModal.classList.add('modal__inner', 'modal__inner-active');
     document.querySelector('.modal__window').append(thanksModal);
-
-    // setTimeout(() => {
-    //   thanksModal.remove();
-    //   prevModalInner.classList.toggle('modal__inner-active');
-    //   closeModal();
-    // }, 4000)
+    document.querySelector('.modal').classList.add('modal__active');
+    setTimeout(() => {
+      thanksModal.remove();
+      prevModalInner.classList.toggle('modal__inner-active');
+      closeModal();
+    }, 4000);
   }
 }
 window.addEventListener("scroll", openModalByScroll);
