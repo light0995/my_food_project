@@ -85,7 +85,7 @@ function setClock(selector, endtime) {
 }
 function openModal() {
   modal.classList.add("modal__active");
-  modal.querySelector('.modal__inner').classList.add('modal__inner-active');
+  modal.querySelector(".modal__inner").classList.add("modal__inner-active");
   clearInterval(modalTimerId);
 }
 function closeModal() {
@@ -143,7 +143,7 @@ new Menu("./img/tabs/vegy.jpg", "vegy", `Меню "Фитнес"`, `Меню "Ф
      Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качествома`, 700, ".menu__field").render();
 const forms = document.querySelectorAll("form");
 const message = {
-  loading: `Loading`,
+  loading: `icons/spinner.svg`,
   success: `<span style='color:green; font-size:24px' >\u2714</span> We will contact you soon`,
   fail: `<span style='color:red; font-size:24px'>\u2716</span> Something went wrong`
 };
@@ -151,12 +151,15 @@ forms.forEach(item => postData(item));
 function postData(form) {
   form.addEventListener("submit", e => {
     e.preventDefault();
-    const statusMessage = document.createElement("div");
+    const statusMessage = document.createElement("img");
+    statusMessage.style.cssText = `
+      display: block;
+      margin: 0 auto;`;
     statusMessage.classList.add("status");
-    statusMessage.innerHTML = message.loading;
-    form.append(statusMessage);
+    statusMessage.src = message.loading;
+    form.insertAdjacentElement('afterend', statusMessage);
     const request = new XMLHttpRequest();
-    request.open("POST", "server.php");
+    request.open("POST", "./server.php");
     request.setRequestHeader("Content-type", "application/json");
     const formData = new FormData(form);
     const object = {};
@@ -174,6 +177,8 @@ function postData(form) {
         showThanksModal(message.success);
         statusMessage.remove();
       } else {
+        form.reset();
+        statusMessage.remove();
         showThanksModal(message.fail);
       }
     });

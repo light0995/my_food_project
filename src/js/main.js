@@ -10,7 +10,6 @@ const modalToggle = document.querySelectorAll("[data-modal]");
 const modalClose = document.querySelector(".modal__close");
 const deadline = "2025-03-26T09:36:00";
 
-
 function hamburgerToggle() {
   hamburger__toggle.addEventListener("click", (e) => {
     e.preventDefault();
@@ -100,22 +99,15 @@ function setClock(selector, endtime) {
   }
 }
 
-
-
-
-
 function openModal() {
   modal.classList.add("modal__active");
-  modal.querySelector('.modal__inner').classList.add('modal__inner-active');
+  modal.querySelector(".modal__inner").classList.add("modal__inner-active");
   clearInterval(modalTimerId);
 }
 
 function closeModal() {
   modal.classList.remove("modal__active");
-
 }
-
-
 
 document.addEventListener("keydown", (e) => {
   if (e.keyCode === 27) {
@@ -146,8 +138,6 @@ function openModalByScroll() {
     window.removeEventListener("scroll", openModalByScroll);
   }
 }
-
-
 
 class Menu {
   constructor(src, alt, subtitle, descr, price, parentSelector, ...classes) {
@@ -187,13 +177,9 @@ new Menu(
   ".menu__field"
 ).render();
 
-
-
-
-
 const forms = document.querySelectorAll("form");
 const message = {
-  loading: `Loading`,
+  loading: `icons/spinner.svg`,
   success: `<span style='color:green; font-size:24px' >\u2714</span> We will contact you soon`,
   fail: `<span style='color:red; font-size:24px'>\u2716</span> Something went wrong`,
 };
@@ -203,13 +189,16 @@ forms.forEach((item) => postData(item));
 function postData(form) {
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const statusMessage = document.createElement("div");
+    const statusMessage = document.createElement("img");
+    statusMessage.style.cssText = `
+      display: block;
+      margin: 0 auto;`;
     statusMessage.classList.add("status");
-    statusMessage.innerHTML = message.loading;
-    form.append(statusMessage);
+    statusMessage.src = message.loading;
+    form.insertAdjacentElement('afterend', statusMessage);
 
     const request = new XMLHttpRequest();
-    request.open("POST", "server.php");
+    request.open("POST", "./server.php");
     request.setRequestHeader("Content-type", "application/json");
 
     const formData = new FormData(form);
@@ -218,7 +207,6 @@ function postData(form) {
         object[key] = value;
     });
     const json = JSON.stringify(object);
-
 
     request.send(json);
     request.addEventListener("load", () => {
@@ -230,19 +218,17 @@ function postData(form) {
         showThanksModal(message.success);
         statusMessage.remove();
       } else {
+        form.reset();
+        statusMessage.remove();
         showThanksModal(message.fail);
       }
     });
   });
 
-
-  
-
-
   function showThanksModal (message) {
     const prevModalInner = document.querySelector('.modal__inner');
     prevModalInner.classList.remove('modal__inner-active');
-    
+
     const thanksModal = document.createElement('div');
     thanksModal.innerHTML = `
     <h2 class="title modal__title">${message}</h2>
@@ -257,20 +243,9 @@ function postData(form) {
       closeModal();
     }, 4000)
 
-
-
   }
 
-  
 }
-
-
-
-
-
-
-
-
 
 
 
