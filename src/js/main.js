@@ -195,60 +195,77 @@ function postData(form) {
       margin: 0 auto;`;
     statusMessage.classList.add("status");
     statusMessage.src = message.loading;
-    form.insertAdjacentElement('afterend', statusMessage);
-
-    const request = new XMLHttpRequest();
-    request.open("POST", "./server.php");
-    request.setRequestHeader("Content-type", "application/json");
+    form.insertAdjacentElement("afterend", statusMessage);
 
     const formData = new FormData(form);
     const object = {};
     formData.forEach((key, value) => {
-        object[key] = value;
+      object[key] = value;
     });
-    const json = JSON.stringify(object);
 
-    request.send(json);
-    request.addEventListener("load", () => {
-      if (request.status === 200) {
-        console.log(request.response);
-        form.reset();
-        statusMessage.innerHTML = message.success;
-        modal.querySelector('.modal__inner').classList.remove('modal__inner-active');
-        showThanksModal(message.success);
-        statusMessage.remove();
-      } else {
-        form.reset();
-        statusMessage.remove();
-        showThanksModal(message.fail);
+    fetch("server.php", {
+      method: "POST",
+      body: JSON.stringify(object),
+      headers: {
+        'Content-type': 'application/json'
       }
-    });
+    })
+      .then((data) => data.text())
+      .then((data) => {
+        console.log(data);
+        statusMessage.innerHTML = message.success;
+        showThanksModal(message.success);
+      })
+      .catch(() => {
+        showThanksModal(message.fail);
+      })
+      .finally(() => {
+        form.reset();
+        statusMessage.remove();
+      });
+
+    // const request = new XMLHttpRequest();
+    // request.open("POST", "./server.php");
+    // request.setRequestHeader("Content-type", "application/json");
+
+    // const json = JSON.stringify(object);
+
+    // request.send(json);
+    // request.addEventListener("load", () => {
+    //   if (request.status === 200) {
+    //     console.log(request.response);
+    //     form.reset();
+    //     statusMessage.innerHTML = message.success;
+    //     modal.querySelector('.modal__inner').classList.remove('modal__inner-active');
+    //     showThanksModal(message.success);
+    //     statusMessage.remove();
+    //   } else {
+    //     form.reset();
+    //     statusMessage.remove();
+    //     showThanksModal(message.fail);
+    //   }
+    // });
   });
 
-  function showThanksModal (message) {
-    const prevModalInner = document.querySelector('.modal__inner');
-    prevModalInner.classList.remove('modal__inner-active');
+  function showThanksModal(message) {
+    const prevModalInner = document.querySelector(".modal__inner");
+    prevModalInner.classList.remove("modal__inner-active");
 
-    const thanksModal = document.createElement('div');
+    const thanksModal = document.createElement("div");
     thanksModal.innerHTML = `
     <h2 class="title modal__title">${message}</h2>
     `;
-    thanksModal.classList.add('modal__inner', 'modal__inner-active');
+    thanksModal.classList.add("modal__inner", "modal__inner-active");
 
-    document.querySelector('.modal__window').append(thanksModal);
-    document.querySelector('.modal').classList.add('modal__active');
+    document.querySelector(".modal__window").append(thanksModal);
+    document.querySelector(".modal").classList.add("modal__active");
     setTimeout(() => {
       thanksModal.remove();
-      prevModalInner.classList.toggle('modal__inner-active');
+      prevModalInner.classList.toggle("modal__inner-active");
       closeModal();
-    }, 4000)
-
+    }, 4000);
   }
-
 }
-
-
-
 
 window.addEventListener("scroll", openModalByScroll);
 const modalTimerId = setTimeout(openModal, 3000);
